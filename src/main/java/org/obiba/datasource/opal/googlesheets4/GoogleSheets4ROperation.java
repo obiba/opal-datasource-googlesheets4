@@ -17,20 +17,18 @@ public class GoogleSheets4ROperation extends AbstractROperation {
 
   private final String columnSpecification;
 
-  private final boolean columnSpecificationForSubset;
-
-  GoogleSheets4ROperation(String symbol, String spreadSheetsId, String sheetName, String columnSpecification, boolean columnSpecificationForSubset) {
+  GoogleSheets4ROperation(String symbol, String spreadSheetsId, String sheetName, String columnSpecification) {
     this.symbol = symbol;
     this.spreadSheetsId = spreadSheetsId;
     this.sheetName = sheetName;
     this.columnSpecification = columnSpecification;
-    this.columnSpecificationForSubset = columnSpecificationForSubset;
   }
 
   @Override
   protected void doWithConnection() {
     if(Strings.isNullOrEmpty(spreadSheetsId)) return;
-    // TODO could remove all dependencies and document them that user must install before hand, without them GS4 does not work!
+    ensurePackage("tibble");
+    eval("library(tibble)", false);
     ensurePackage("googledrive");
     ensurePackage("rematch2");
     ensurePackage("uuid");
@@ -38,8 +36,6 @@ public class GoogleSheets4ROperation extends AbstractROperation {
     ensureGitHubPackage( "r-lib", "gargle", null);
     ensureGitHubPackage( "tidyverse", "googlesheets4", null);
     eval("library(googlesheets4)", false);
-    ensurePackage("tibble");
-    eval("library(tibble)", false);
 
     eval(getSpreadsheetCommand(), false);
     eval(getCommand(), false);
@@ -54,13 +50,11 @@ public class GoogleSheets4ROperation extends AbstractROperation {
   }
 
   private String getReadSheetCommand() {
-    // TODO use columnTypes
-    return String.format("sheets_read(%s$spreadsheet_id, '%s')", SPREAD_SHEET_SYMBOL, sheetName);
+    return String.format("sheets_read(%s$spreadsheet_id, '%s' %s)", SPREAD_SHEET_SYMBOL, sheetName, columnTypes());
   }
 
-  // TODO
   private String columnTypes() {
-    return Strings.isNullOrEmpty(columnSpecification) ?  "" : ", col_types = " + columnSpecification;
+    return Strings.isNullOrEmpty(columnSpecification) ?  "" : String.format(", col_types = '%s'", columnSpecification);
   }
 
   @Override
