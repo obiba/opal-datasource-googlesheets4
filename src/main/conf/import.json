@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "array",
+  "items": [
+    {
+      "key": "spreadsheetId",
+      "title": "Google Spreadsheet ID",
+      "type": "string",
+      "description": "The ID of a publicly shared Google spreadsheet."
+    },
+    {
+      "key": "sheetName",
+      "title": "Sheet Name",
+      "type": "string",
+      "format": "string",
+      "description": "The name of the sheet to import."
+    },
+    {
+      "key": "col_types",
+      "title": "Column Types",
+      "type": "string",
+      "format": "textarea",
+      "description": "A compact string representation where each character represents one column: c = character, i = integer, n = number, d = double, l = logical, D = date, T = date time, t = time, C: Cell, L: List, ? = guess, or _/- to skip the column."
+    },
+    {
+      "key": "locale",
+      "title": "Locale",
+      "type": "string",
+      "default": "en"
+    },
+    {
+      "key": "id",
+      "title": "Identifier Column Name",
+      "type": "string",
+      "default": "id",
+      "description": "Name of the column containing the IDs"
+    },
+    {
+      "key": "entity_type",
+      "title": "Entity Type",
+      "type": "string",
+      "default": "Participant",
+      "description": "Specify what these data relate to (Participant, Instrument, Area etc.)"
+    }
+  ],
+  "required": [
+    "spreadsheetId",
+    "sheetName"
+  ]
+}
