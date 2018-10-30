@@ -35,9 +35,10 @@ public class GoogleSheets4DatasourceService extends AbstractRDatasourceService {
         String na = parameters.optString("na");
         int skip = parameters.optInt("skip");
 
-        String symbol = getSymbol(new File(sheetName));
+        String sanitized = StringSanitizer.sanitize(sheetName);
+        String symbol = getSymbol(new File(StringSanitizer.unquote(sanitized)));
         // copy file to the R session
-        execute(new GoogleSheets4ROperation(symbol, spreadsheetId, sheetName, na, skip));
+        execute(new GoogleSheets4ROperation(symbol, spreadsheetId, sanitized, na, skip));
         return new RDatasource(getName(), getRSessionHandler(), symbol, parameters.optString("entity_type"), parameters.optString("id"));
       }
     };
