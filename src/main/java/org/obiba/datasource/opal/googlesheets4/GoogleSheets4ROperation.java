@@ -1,7 +1,6 @@
 package org.obiba.datasource.opal.googlesheets4;
 
 import com.google.common.base.Strings;
-
 import org.obiba.opal.spi.r.AbstractROperation;
 
 public class GoogleSheets4ROperation extends AbstractROperation {
@@ -22,7 +21,7 @@ public class GoogleSheets4ROperation extends AbstractROperation {
     this.symbol = symbol;
     this.spreadSheetsId = spreadSheetsId;
     this.sheetName = sheetName;
-    this.missingValues = missingValues;
+    this.missingValues = StringSanitizer.sanitize(missingValues.split(","));
     this.rowsToSkip = rowsTokip;
   }
 
@@ -54,7 +53,7 @@ public class GoogleSheets4ROperation extends AbstractROperation {
 
   private String getReadSheetCommand() {
     return String.format(
-      "sheets_read(%s$spreadsheet_id, '%s' %s %s)",
+      "sheets_read(%s$spreadsheet_id, %s %s %s)",
       SPREAD_SHEET_SYMBOL,
       sheetName,
       getRowsToSkip(),
