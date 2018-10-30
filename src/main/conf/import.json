@@ -12,21 +12,19 @@
       "key": "sheetName",
       "title": "Sheet Name",
       "type": "string",
-      "format": "string",
       "description": "The name of the sheet to import."
     },
     {
-      "key": "col_types",
-      "title": "Column Types",
+      "key": "na",
+      "title": "Missing Values",
       "type": "string",
-      "format": "textarea",
-      "description": "A compact string representation where each character represents one column: c = character, i = integer, n = number, d = double, l = logical, D = date, T = date time, t = time, C: Cell, L: List, ? = guess, or _/- to skip the column."
+      "description": "A comma separated list of quoted strings to be considered as missing."
     },
     {
-      "key": "locale",
-      "title": "Locale",
-      "type": "string",
-      "default": "en"
+      "key": "skip",
+      "title": "Skip",
+      "type": "integer",
+      "description": "Number of lines to skip before reading data."
     },
     {
       "key": "id",
