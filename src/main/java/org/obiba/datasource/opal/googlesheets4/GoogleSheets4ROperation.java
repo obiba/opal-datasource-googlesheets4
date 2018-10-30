@@ -35,7 +35,7 @@ public class GoogleSheets4ROperation extends AbstractROperation {
     ensurePackage("rematch2");
     ensurePackage("uuid");
     ensurePackage("debugme");
-    ensureGitHubPackage( "tidyverse", "glue", null);
+    ensurePackage( "glue");
     ensureGitHubPackage( "r-lib", "gargle", null);
     ensureGitHubPackage( "tidyverse", "googlesheets4", null);
     eval("library(googlesheets4)", false);
