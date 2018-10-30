@@ -1,9 +1,8 @@
 package org.obiba.datasource.opal.googlesheets4;
 
 import com.google.common.base.Strings;
+
 import org.obiba.opal.spi.r.AbstractROperation;
-import org.rosuda.REngine.REXP;
-import org.rosuda.REngine.REXPMismatchException;
 
 public class GoogleSheets4ROperation extends AbstractROperation {
 
@@ -15,13 +14,16 @@ public class GoogleSheets4ROperation extends AbstractROperation {
 
   private final String sheetName;
 
-  private final String columnSpecification;
+  private final String missingValues;
 
-  GoogleSheets4ROperation(String symbol, String spreadSheetsId, String sheetName, String columnSpecification) {
+  private final int rowsToSkip;
+
+  GoogleSheets4ROperation(String symbol, String spreadSheetsId, String sheetName, String missingValues, int rowsTokip) {
     this.symbol = symbol;
     this.spreadSheetsId = spreadSheetsId;
     this.sheetName = sheetName;
-    this.columnSpecification = columnSpecification;
+    this.missingValues = missingValues;
+    this.rowsToSkip = rowsTokip;
   }
 
   @Override
@@ -32,6 +34,7 @@ public class GoogleSheets4ROperation extends AbstractROperation {
     ensurePackage("googledrive");
     ensurePackage("rematch2");
     ensurePackage("uuid");
+    ensurePackage("debugme");
     ensureGitHubPackage( "tidyverse", "glue", null);
     ensureGitHubPackage( "r-lib", "gargle", null);
     ensureGitHubPackage( "tidyverse", "googlesheets4", null);
@@ -50,11 +53,20 @@ public class GoogleSheets4ROperation extends AbstractROperation {
   }
 
   private String getReadSheetCommand() {
-    return String.format("sheets_read(%s$spreadsheet_id, '%s' %s)", SPREAD_SHEET_SYMBOL, sheetName, columnTypes());
+    return String.format(
+      "sheets_read(%s$spreadsheet_id, '%s' %s %s)",
+      SPREAD_SHEET_SYMBOL,
+      sheetName,
+      getRowsToSkip(),
+      getMissingValues());
   }
 
-  private String columnTypes() {
-    return Strings.isNullOrEmpty(columnSpecification) ?  "" : String.format(", col_types = '%s'", columnSpecification);
+  private String getRowsToSkip() {
+    return rowsToSkip < 1 ? "" : String.format(", skip = %d", rowsToSkip);
+  }
+
+  private String getMissingValues() {
+    return Strings.isNullOrEmpty(missingValues) ? "" : String.format(", na = c(%s)", missingValues.trim());
   }
 
   @Override

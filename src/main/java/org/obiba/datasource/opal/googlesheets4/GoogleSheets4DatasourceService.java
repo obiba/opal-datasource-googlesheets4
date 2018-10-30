@@ -32,11 +32,12 @@ public class GoogleSheets4DatasourceService extends AbstractRDatasourceService {
       protected Datasource internalCreate() {
         String spreadsheetId = parameters.optString("spreadsheetId");
         String sheetName = parameters.optString("sheetName");
-        String columnTypes = parameters.optString("col_types");
+        String na = parameters.optString("na");
+        int skip = parameters.optInt("skip");
 
         String symbol = getSymbol(new File(sheetName));
         // copy file to the R session
-        execute(new GoogleSheets4ROperation(symbol, spreadsheetId, sheetName, columnTypes));
+        execute(new GoogleSheets4ROperation(symbol, spreadsheetId, sheetName, na, skip));
         return new RDatasource(getName(), getRSessionHandler(), symbol, parameters.optString("entity_type"), parameters.optString("id"));
       }
     };
