@@ -17,17 +17,16 @@ public class GoogleSheets4ROperation extends AbstractROperation {
 
   private final int rowsToSkip;
 
-  GoogleSheets4ROperation(String symbol, String spreadSheetsId, String sheetName, String missingValues, int rowsTokip) {
+  GoogleSheets4ROperation(String symbol, String spreadSheetsId, String sheetName, String missingValues, int rowsToSkip) {
     this.symbol = symbol;
     this.spreadSheetsId = spreadSheetsId;
     this.sheetName = sheetName;
-    this.missingValues = StringSanitizer.sanitize(missingValues.split(","));
-    this.rowsToSkip = rowsTokip;
+    this.missingValues = missingValues;
+    this.rowsToSkip = rowsToSkip;
   }
 
   @Override
   protected void doWithConnection() {
-    if(Strings.isNullOrEmpty(spreadSheetsId)) return;
     ensurePackage("tibble");
     eval("library(tibble)", false);
     ensurePackage("googledrive");

@@ -6,7 +6,7 @@
       "key": "spreadsheetId",
       "title": "Google Spreadsheet ID",
       "type": "string",
-      "description": "The ID of a publicly shared Google spreadsheet."
+      "description": "The ID or URL of a publicly shared Google spreadsheet."
     },
     {
       "key": "sheetName",

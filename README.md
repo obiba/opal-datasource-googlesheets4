@@ -7,6 +7,10 @@ This plugin allows to import Google Sheets spreadsheets using the R package [goo
 * Have a bug or a question? Please create an issue on [GitHub](https://github.com/obiba/opal-datasource-googlesheets4/issues).
 * Continuous integration is on [Travis](https://travis-ci.com/obiba/opal-datasource-googlesheets4).
 
+## Limitations
+
+This plugin uses the development version of [googlesheets4 R package](https://github.com/tidyverse/googlesheets4) which only supports publicly shared spreadsheets.
+
 ## Mailing list
 
 Have a question? Ask on our mailing list!

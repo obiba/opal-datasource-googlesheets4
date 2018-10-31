@@ -30,15 +30,14 @@ public class GoogleSheets4DatasourceService extends AbstractRDatasourceService {
       @NotNull
       @Override
       protected Datasource internalCreate() {
-        String spreadsheetId = parameters.optString("spreadsheetId");
-        String sheetName = parameters.optString("sheetName");
-        String na = parameters.optString("na");
+        String spreadsheetId = StringSanitizer.sanitizeId(parameters.optString("spreadsheetId"));
+        String sheetName = StringSanitizer.sanitize(parameters.optString("sheetName"));
+        String na = StringSanitizer.sanitize(parameters.optString("na").split(","));
         int skip = parameters.optInt("skip");
 
-        String sanitized = StringSanitizer.sanitize(sheetName);
-        String symbol = getSymbol(new File(StringSanitizer.unquote(sanitized)));
+        String symbol = getSymbol(new File(StringSanitizer.unquote(sheetName)));
         // copy file to the R session
-        execute(new GoogleSheets4ROperation(symbol, spreadsheetId, sanitized, na, skip));
+        execute(new GoogleSheets4ROperation(symbol, spreadsheetId, sheetName, na, skip));
         return new RDatasource(getName(), getRSessionHandler(), symbol, parameters.optString("entity_type"), parameters.optString("id"));
       }
     };
