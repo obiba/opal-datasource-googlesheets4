@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.obiba.magma.Datasource;
 import org.obiba.magma.DatasourceFactory;
 import org.obiba.opal.spi.datasource.DatasourceUsage;
+import org.obiba.opal.spi.r.RUtils;
 import org.obiba.opal.spi.r.datasource.AbstractRDatasourceFactory;
 import org.obiba.opal.spi.r.datasource.AbstractRDatasourceService;
 import org.obiba.opal.spi.r.datasource.RDatasourceFactory;
@@ -35,7 +36,7 @@ public class GoogleSheets4DatasourceService extends AbstractRDatasourceService {
         String na = StringSanitizer.sanitize(parameters.optString("na").split(","));
         int skip = parameters.optInt("skip");
 
-        String symbol = getSymbol(new File(StringSanitizer.unquote(sheetName)));
+        String symbol = RUtils.getSymbol(StringSanitizer.unquote(sheetName));
         // copy file to the R session
         execute(new GoogleSheets4ROperation(symbol, spreadsheetId, sheetName, na, skip));
         return new RDatasource(getName(), getRSessionHandler(), symbol, parameters.optString("entity_type"), parameters.optString("id"));
