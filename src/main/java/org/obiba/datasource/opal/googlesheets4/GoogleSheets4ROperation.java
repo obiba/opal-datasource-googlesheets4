@@ -43,11 +43,11 @@ public class GoogleSheets4ROperation extends AbstractROperation {
   }
 
   private String getCommand() {
-    return String.format("base::assign('%s', %s)", symbol, getReadSheetCommand());
+    return String.format("is.null(base::assign('%s', %s))", symbol, getReadSheetCommand());
   }
 
   private String getSpreadsheetCommand() {
-    return String.format("base::assign('%s', sheets_get('%s'))", SPREAD_SHEET_SYMBOL, spreadSheetsId);
+    return String.format("is.null(base::assign('%s', sheets_get('%s')))", SPREAD_SHEET_SYMBOL, spreadSheetsId);
   }
 
   private String getReadSheetCommand() {
