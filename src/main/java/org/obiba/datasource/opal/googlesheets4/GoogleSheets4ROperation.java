@@ -37,7 +37,7 @@ public class GoogleSheets4ROperation extends AbstractROperation {
     ensureGitHubPackage( "r-lib", "gargle", null);
     ensureGitHubPackage( "tidyverse", "googlesheets4", null);
     eval("library(googlesheets4)", false);
-
+    eval("options(gargle_oauth_cache=FALSE)", false);
     eval(getSpreadsheetCommand(), false);
     eval(getCommand(), false);
   }
